@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  youtube:
+    container_name: youtube
+    image: tzahi12345/youtubedl-material:latest
+    environment:
+      - ytdl_mongodb_connection_string=mongodb://mongo:27017
+      - ytdl_use_local_db=false
+      - write_ytdl_config=true
+    volumes:
+      - ./appdata:/app/appdata
+      - ./audio:/app/audio
+      - ./video:/app/video
+      - ./subscriptions:/app/subscriptions
+      - ./users:/app/users
+    ports:
+      - 8998:17442
+    restart: always
+  
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    volumes:
+      - ./db/:/data/db
+    restart: always
+    logging:
+      driver: none
